@@ -74,16 +74,6 @@ from rankedLoc
 where rank = 1
 order by 1
 
-/*
-observation:
-Countires with the highest infected rate per year are as follows:
-- 2020: Andorra (9.78%)
-- 2021: Andorra (27.22%)
-- 2022: Cyprus  (70.15%)
-- 2023: Cyprus  (75.35%)
-- 2024: Brunei  (76.35%)
-*/
-
 
 -- 6. Finding top 5 countries which have the highest deaths rate(total_deaths/population) overall
 select 
@@ -95,15 +85,6 @@ from covid_deaths
 group by location
 having ROUND(CAST(max(total_deaths) AS DECIMAL) / NULLIF(CAST(max(population) AS DECIMAL), 0) * 100, 2) is not NULL
 order by 4 DESC
-
-/*
-Obsearvation:
-1. Peru	                       0.65%
-2. Bulgaria                    0.57%
-3. Bosnia and Herzegovina	   0.51%
-4. Hungary	                   0.49%
-5. North Macedonia	           0.48%
-*/
 
 
 -- 7. Finding Population, # Infected, # Death, Infected/Population %, Death/Population %, Infected/Death by Continent
@@ -120,16 +101,6 @@ where continent is null -- in this dataset, when location = continent data, cont
 and location not in ('Low income', 'Lower middle income', 'Upper middle income', 'High income', 'European Union')
 group by location
 order by 2 DESC
-	
-/*
-Observation:
-- approx. 10% of the people in the world got infected to COVID at least once.
-- COVID killed 7 millions people (0.09% of ttl population) on the earth
-- Europe has the highest infection/population rate with 33.84%
-- Africa has the lowest infection/population rate with 0.92%
-- However, when comparing the deaths/infection rate between Europe and Africa,
-  Africa has much higher rate (1.97%) against Europe (0.83%)
-*/
 
 
 -- 8. Look at daily rolling_infection, rolling_death, and rolling_vaccinations per location
@@ -180,8 +151,10 @@ from tmp
 where continent is not null
 order by 1,2,3
 
+
 -- checking the view created
 select *
 from visualization1
-limit 100;
-*/
+where extract(year from date) = 2022
+and location = 'Japan'
+limit 10;
