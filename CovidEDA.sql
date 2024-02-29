@@ -1,39 +1,11 @@
--- 1. Quickly check one of the tables
+-- 1. Quickly check all the tables
 select *
 from covid_deaths
 limit 10;
 
-/*
-Observation:
-covid_deaths contains 33 columns with the following names:
-iso_code	
-continent	
-location	
-date	
-population	
-total_cases	
-new_cases	
-new_cases_smoothed	
-total_deaths	
-new_deaths	
-new_deaths_smoothed	
-total_cases_per_million	
-new_cases_per_million	
-new_cases_smoothed_per_million	
-total_deaths_per_million	
-new_deaths_per_million	
-new_deaths_smoothed_per_million	
-reproduction_rate	
-icu_patients	
-icu_patients_per_million	
-hosp_patients	
-hosp_patients_per_million	
-weekly_icu_admissions	
-weekly_icu_admissions_per_million	
-weekly_hosp_admissions	
-weekly_hosp_admissions_per_million	
-total_tests
-*/
+select *
+from covid_vaccinations
+limit 10;
 
 
 -- 2. Looking at total cases vs total death by year/month in Japan
@@ -49,13 +21,6 @@ where location = 'Japan'
 group by location, EXTRACT(YEAR FROM date), EXTRACT(MONTH FROM date)
 order by 1,2,3
 
-/*
-Observations:
-- death rates peaked on 2020 May at 5.29%
-- slow but continuous decline in death rates since its peaked.
-- stable around 0.2% after 2022 August to today
-*/
-
 
 -- 3. Looking at total cases vs population by year/month in Japan
 select 
@@ -70,32 +35,17 @@ where location = 'Japan'
 group by location, EXTRACT(YEAR FROM date), EXTRACT(MONTH FROM date)
 order by 1,2,3
 
-/*
-Observations:
-- today, >27% of people in Japan infected COVID at least once
-- faster growth in infection percentage since 2022 Febuary
-- infected percentage stablized after 2023 January
-*/
-
 
 -- 4. Finding top 5 countries which have the highest infection rate(total_cases/population) overall
-	select 
-		location 
-		, max(total_cases) as cumulative_cases
-		, max(population) as population
-		, ROUND(CAST(max(total_cases) AS DECIMAL) / NULLIF(CAST(max(population) AS DECIMAL), 0) * 100, 2) AS infected_percentage
-	from covid_deaths
-	group by location
-	having ROUND(CAST(max(total_cases) AS DECIMAL) / NULLIF(CAST(max(population) AS DECIMAL), 0) * 100, 2) is not NULL
-	order by 4 DESC
-/*
-Observation:
-1. Brunei	      76.3%
-2. Cyprus	      76.02%
-3. San Marino	  75.07%
-4. Austria	      68.03%
-5. South Korea	  66.72%
-*/
+select 
+	location 
+	, max(total_cases) as cumulative_cases
+	, max(population) as population
+	, ROUND(CAST(max(total_cases) AS DECIMAL) / NULLIF(CAST(max(population) AS DECIMAL), 0) * 100, 2) AS infected_percentage
+from covid_deaths
+group by location
+having ROUND(CAST(max(total_cases) AS DECIMAL) / NULLIF(CAST(max(population) AS DECIMAL), 0) * 100, 2) is not NULL
+order by 4 DESC
 
 
 -- 5. Finding countries which have the highest infection rate(total_cases/population) for each recorded year
@@ -127,11 +77,11 @@ order by 1
 /*
 observation:
 Countires with the highest infected rate per year are as follows:
-2020: Andorra (9.78%)
-2021: Andorra (27.22%)
-2022: Cyprus  (70.15%)
-2023: Cyprus  (75.35%)
-2024: Brunei  (76.35%)
+- 2020: Andorra (9.78%)
+- 2021: Andorra (27.22%)
+- 2022: Cyprus  (70.15%)
+- 2023: Cyprus  (75.35%)
+- 2024: Brunei  (76.35%)
 */
 
 
@@ -234,3 +184,4 @@ order by 1,2,3
 select *
 from visualization1
 limit 100;
+*/
