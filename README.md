@@ -167,8 +167,8 @@ Observation:
 <br>
 
 ## 8. Look at daily rolling_infection, rolling_death, and rolling_vaccinations per location
-8.1 covid_vaccinations table is joined as covid_deaths table does not contain necessary data
-8.2 use CTE to avoid duplicate entry per date
+- 8.1 covid_vaccinations table is joined as covid_deaths table does not contain necessary data
+- 8.2 use CTE to avoid duplicate entry per date
 
 ````sql
 WITH tmp as (
